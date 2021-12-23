@@ -12,7 +12,7 @@ app.use(cors());
 const userRoute = require("./routes/user");
 
 // const mongoURI = "mongodb://localhost:27017/BlockchainPOC";
-
+//mongoose.connect(config.DB,{ useNewUrlParser: true }));
 //connnect to DB
 
 mongoose
@@ -30,4 +30,4 @@ mongoose
 app.use(bodyParser.json());
 app.use("/api/user", userRoute);
 
-app.listen(8080, () => console.log("Server running at 8080..."));
+app.listen(8004, () => console.log("Server running at 3000..."));

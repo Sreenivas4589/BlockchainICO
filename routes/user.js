@@ -751,19 +751,20 @@ router.post("/Mint", async (req, res) => {
 	const privateKey = Buffer.from(privKey, "hex");
   
 	let nonce = await web3.eth.getTransactionCount(owner);
-  
+  console.log(nonce);
 	const transferFunction = contract.methods.mint(addressTo,amount).encodeABI();
   
 	const NetworkId = await web3.eth.net.getId();
+	console.log("transacted")
 	const rawTx = {
 	  from: owner,
 	  to: contractAddresstoken,
 	  data: transferFunction,
 	  nonce: nonce,
-	  value: web3.utils.toHex(amount.toString()),
+	  value: "0x00",
 	 
 	  gasLimit: web3.utils.toHex(210000),
-	  gasPrice: web3.utils.toHex(90000000000),
+	  gasPrice: web3.utils.toHex(100000000),
 	  chainId: NetworkId,
 	};
   
@@ -800,7 +801,7 @@ router.get('/profile', (req, res, next) => {
 		}
 	});
 });
-router.post("/startico", async (req, res) => {
+router.post("/startico", async (req, res) =>  {
 
 	const owner = req.body.addressFrom;
   
@@ -812,7 +813,7 @@ router.post("/startico", async (req, res) => {
 	res.send(start );
   });
   router.post("/vesting", async (req, res) => {
-	//before this it for for sending token to another address , now recivers address and sender address is same hence it is purchase token
+	
 	console.log("BODY ", req.body);
 	const owner = req.body.addressFrom;
 	const privKey = req.body.privateKey;
@@ -821,19 +822,21 @@ router.post("/startico", async (req, res) => {
   const message=req.body.message
 	let contract = new web3.eth.Contract(contractABIICO, contractAddressICO);
   
-	//const privateKey = Buffer.from(privKey, "hex");
-  const privateKey=JSON.stringify(privKey);
+	const privateKey = Buffer.from(privKey, "hex");
+  //const privateKey=JSON.stringify(privKey);
 	let nonce = await web3.eth.getTransactionCount(owner);
   
 	const transferFunction = contract.methods.buy(owner,amount).encodeABI();
   
 	const NetworkId = await web3.eth.net.getId();
+	console.log("transaction successfull")
 	const rawTx = {
 	  from: owner,
 	  to: contractAddressICO,
 	  data: transferFunction,
 	  nonce: nonce,
 	  value: web3.utils.toHex(amount.toString()),
+	  
 	  gasLimit: web3.utils.toHex(210000),
 	  gasPrice: web3.utils.toHex(1000000),
 	  chainId: NetworkId,
